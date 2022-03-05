@@ -4,7 +4,7 @@ const app = express();
 
 const socketIO = require('socket.io');
 
-const PORT = process.env.PORT1 || 3000;
+const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
   console.log(`CIRCLE SOCKET listening on port ${PORT}`)
