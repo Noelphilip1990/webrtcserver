@@ -20,7 +20,7 @@ const server = app.listen(PORT, () => {
 
 const io = socketIO(server, {
   cors: {
-    origins: ['*']
+    origin: '*'
   }
 });
 
