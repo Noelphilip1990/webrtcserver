@@ -46,5 +46,5 @@ io.on('connection', (socket) => {
 });
 
 http.listen(process.env.PORT2 || 3200, () => {
-  console.log('listening socket webrtc on ::' + process.env.PORT);
+  console.log('listening socket webrtc on ::' + process.env.PORT2);
 });
