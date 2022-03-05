@@ -1,6 +1,16 @@
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http, {
+const express = require('express');
+
+const app = express();
+
+const socketIO = require('socket.io');
+
+const PORT = process.env.PORT1 || 3000;
+
+const server = app.listen(PORT, () => {
+  console.log(`CIRCLE SOCKET listening on port ${PORT}`)
+})
+
+const io = socketIO(server, {
   cors: {
     origins: ['*']
   }
@@ -21,8 +31,4 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-});
-
-http.listen(process.env.PORT1 || 3000, () => {
-  console.log('listening on app.js *: ' + process.env.PORT1);
 });

@@ -1,6 +1,16 @@
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http, {
+const express = require('express');
+
+const app = express();
+
+const socketIO = require('socket.io');
+
+const PORT = process.env.PORT2 || 3200;
+
+const server = app.listen(PORT, () => {
+  console.log(`WEBRTC app listening on port ${PORT}`)
+})
+
+const io = socketIO(server, {
   cors: {
     origins: ['*']
   }
@@ -14,9 +24,7 @@ io.on('connection', (socket) => {
 
   let sid = socket.id
 
-  console.log('a webrtc connected');
-
-
+  console.log('A webrtc connection');
 
   socket.on('connecto', () => {
 
@@ -25,9 +33,6 @@ io.on('connection', (socket) => {
     console.log('rtc ready connected');
     
    });
-
-
- 
 
   // video data
   socket.on('sendvideodata', (data) => {
@@ -43,8 +48,4 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-});
-
-http.listen(process.env.PORT2 || 3200, () => {
-  console.log('listening socket webrtc on ::' + process.env.PORT2);
 });
