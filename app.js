@@ -14,19 +14,21 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/', (req, res) => {
+  res.send('<h1>Hey Socket.io</h1>');
+});
+
+
 const server = app.listen(PORT, () => {
   console.log(`CIRCLE SOCKET listening on port ${PORT}`)
 })
 
 const io = socketIO(server, {
   cors: {
-    origins: ['*']
+    origin: '*'
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hey Socket.io</h1>');
-});
 
 io.on('connection', (socket) => {
   console.log('a user connected');
