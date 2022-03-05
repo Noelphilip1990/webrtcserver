@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently npm:app*",
+    "start": "npm run app:webrtc",
     "app:circle": "node app.js",
     "app:webrtc": "node socketWEBRTC.js",
     "test": "echo \"Error: no test specified\" && exit 1"

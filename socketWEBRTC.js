@@ -4,7 +4,7 @@ const app = express();
 
 const socketIO = require('socket.io');
 
-const PORT = process.env.PORT2 || 3200;
+const PORT = process.env.PORT || 3000;
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -24,11 +24,28 @@ const io = socketIO(server, {
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hey Socket.io WEBRTC</h1>');
+io.on('connection', socket => {
+  console.log('connect')
 });
 
-io.on('connection', (socket) => {
+const circle = io.of('/my-circle');
+
+circle.on('connection', (socket) => {
+  console.log('a user connected');
+
+  // circle data
+  socket.on('circledata', (data) => {
+    circle.emit('serverdata', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+const webrtc = io.of('/my-webrtc');
+
+webrtc.on('connection', (socket) => {
 
   let sid = socket.id
 
@@ -36,11 +53,11 @@ io.on('connection', (socket) => {
 
   socket.on('connecto', () => {
 
-    io.emit('ready', {"sid": sid});
+    webrtc.emit('ready', {"sid": sid});
 
     console.log('rtc ready connected');
     
-   });
+    });
 
   // video data
   socket.on('sendvideodata', (data) => {
@@ -49,7 +66,7 @@ io.on('connection', (socket) => {
         peerToSend = data['sid'];
     }
     data['sid'] = socket.id;
-    io.emit('videodata', data);
+    webrtc.emit('videodata', data);
   });
 
   socket.on('disconnect', () => {
