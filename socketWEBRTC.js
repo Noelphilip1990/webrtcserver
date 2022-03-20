@@ -28,6 +28,21 @@ io.on('connection', socket => {
   console.log('connect')
 });
 
+const messages = io.of('/chat-message');
+
+messages.on('connection', (socket) => {
+  console.log('A user is Connected');
+
+  // message data
+  socket.on('message', (data) => {
+    messages.emit('message', `${data.user} said ${data.message}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
 const circle = io.of('/my-circle');
 
 circle.on('connection', (socket) => {
@@ -57,7 +72,7 @@ webrtc.on('connection', (socket) => {
 
     console.log('rtc ready connected');
     
-    });
+  });
 
   // video data
   socket.on('sendvideodata', (data) => {
