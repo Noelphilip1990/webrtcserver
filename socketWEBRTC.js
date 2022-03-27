@@ -35,7 +35,7 @@ messages.on('connection', (socket) => {
 
   // message data
   socket.on('message', (data) => {
-    messages.emit('message', `${data.user} said ${data.message}`);
+    messages.emit('message', { to: data.to, from: data.user, message:`${data.user}: ${data.message}` });
   });
 
   socket.on('disconnect', () => {
